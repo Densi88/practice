@@ -1,0 +1,337 @@
+#include <string>
+#include <fstream>
+#include <iostream>
+
+using  namespace std;
+string filename;
+string numbers;
+string inputFilename;
+string s;
+string output;
+string reading;
+bool renamed = false;
+bool renamedData = false;
+bool findNumbers = false;
+int registr[10] = {0};
+void Read() {
+
+	if (!renamedData) {
+		ifstream fin("Input.txt");
+		if (fin.is_open()) {
+			while (getline(fin, reading)) {
+				cout << reading << endl;
+			}
+		}
+		else {
+			cout << "File not open!" << endl;
+		}
+	}
+
+	else {
+		ifstream fin(inputFilename + ".txt");
+		if (fin.is_open()) {
+			while (getline(fin, s)) {
+				cout << s << endl;
+			}
+		}
+		else {
+			cout << "File not open!" << endl;
+		}
+	}
+}
+void create() {
+	ofstream fout;
+	
+	getline(cin, reading);
+	fout.open("Input.txt");
+	if (fout.is_open()) {
+		fout << reading;
+		fout.close();
+	}
+	else {
+		cout << "File not found!" << endl;
+	}
+}
+void GetNumbersStationary() {
+
+	int pos = 0;
+	while (pos <= reading.size()) {
+		if ((reading[pos] >= '0' && reading[pos] <= '9') && (reading[pos + 1] >= '0' && reading[pos + 1] <= '9')
+			&& (reading[pos + 2] == '-') && (reading[pos + 3] >= '0' && reading[pos + 3] <= '9') && (reading[pos + 4] >= '0' && reading[pos + 4] <= '9') && (reading[pos + 5] == '-')
+			&& (reading[pos + 6] >= '0' && reading[pos + 6] <= '9') && (reading[pos + 7] >= '0' && reading[pos + 7] <= '9')) {
+
+			numbers += reading.substr(pos, 8) + "\n";
+			cout << "Number find from " << pos << " " << "to " << pos + 8 << endl;
+			pos += 8;
+
+			findNumbers = true;
+		}
+		else if ((reading[pos] >= '0' && reading[pos] <= '9') && (reading[pos + 1] >= '0' && reading[pos + 1] <= '9') &&
+			(reading[pos + 2] >= '0' && reading[pos + 2] <= '9') && (reading[pos + 3] == '-') &&
+			(reading[pos + 4] >= '0' && reading[pos + 4] <= '9') && (reading[pos + 5] >= '0' && reading[pos + 5] <= '9') &&
+			(reading[pos + 6] >= '0' && reading[pos + 6] <= '9')) {
+
+			numbers += reading.substr(pos, 7) + "\n";
+			cout << "Numbers find from " << pos << " " << "to " << pos + 7 << endl;
+			pos += 7;
+			findNumbers = true;
+		}
+		pos = pos + 1;
+
+	}
+	if (!findNumbers) {
+		cout << "Stationary numbers not found!" << endl;
+	}
+	else {
+		cout << "Your stationary numbers:" << endl;
+	}
+
+
+
+	ofstream fout;
+	fout.open("Output.txt");
+	if (fout.is_open()) {
+		fout << numbers;
+		fout.close();
+	}
+	else {
+		cout << "File is not created!" << endl;
+	}
+
+
+
+
+
+	ifstream in("Output.txt");
+	if (in.is_open()) {
+		while (getline(in, output)) {
+			cout << output << endl;
+		}
+	}
+	else {
+		cout << "File is not open!" << endl;
+	}
+}
+void SaveNumbersAs() {
+
+	cout << "Enter new name of file: ";
+	cin >> filename;
+	ofstream fout;
+	fout.open(filename + ".txt");
+	if (fout.is_open()) {
+		fout << numbers;
+		fout.close();
+		cout << "File resaved" << endl;
+	}
+	else {
+		cout << "File not open!" << endl;
+	}
+}
+void saveInputAs() {
+	cout << "Enter new name of file: ";
+	cin >> inputFilename;
+	ofstream fout;
+	fout.open(inputFilename + ".txt");
+	if (fout.is_open()) {
+		fout << fileData;
+		fout.close();
+	}
+	else {
+		cout << "File not open!" << endl;
+	}
+	renamedData = true;
+}
+int getValidatedChoose() {
+	string input;
+	while (true) {
+		cout << "Input choose: ";
+		getline(cin, input);
+		bool isValid = true;
+		for (char c : input) {
+			if (!isdigit(c)) {
+				isValid = false;
+				break;
+			}
+		}
+		if (isValid && !input.empty()) {
+			return stoi(input);
+		}
+		else {
+			cout << "Invalid input. Please enter a valid choose" << endl;
+		}
+	}
+}
+void registrChecking() {
+	int n=0;
+	bool reg = false;
+	int pos = 0;
+	reading[pos] = toupper(reading[pos]);
+	while (pos <= reading.size() && n < 10) {
+		if (((reading[pos] == '.') || (reading[pos] == '!') || (reading[pos] == '?')) && (pos + 2 <= reading.size())) {
+			reading[pos+2]=toupper(reading[pos + 2]);
+			registr[n] = pos+2;
+			reg = true;
+			n = n + 1;
+		}
+		pos = pos + 1;
+		
+	}
+	if (reg) {
+		cout << "Registr changed at positions: ";
+		for (int i = 0; i < n; i++) {
+			cout << registr[i] << ", ";
+		}
+		cout << endl;
+	}
+	else {
+		cout << "Text input correctly" << endl;
+	}
+	fout.open("Input.txt");
+	if (fout.is_open()) {
+		fout << reading;
+		fout.close();
+	}
+	else {
+		cout << "File not found!" << endl;
+	}
+}
+
+void mobilePhone(){
+    int i=0;
+    int a=0;
+    int b=0;
+	int pos = 0;
+	while (pos <= reading.size()) {
+		if((readin[pos]=='8')&&(reading[pos+1]=='(')&&(readin[pos+2]>='0'&&reading[pos+2]<='9')
+		&&(readin[pos+3]>='0'&&reading[pos+3]<='9')&&(readin[pos+4]>='0'&&reading[pos+4]<='9')
+		&&(reading[pos+5]==')')&&(readin[pos+6]>='0'&&reading[pos+6]<='9')&&(readin[pos+7]>='0'&&reading[pos+7]<='9')
+		&&(readin[pos+8]>='0'&&reading[pos+8]<='9')&&(readin[pos+9]>='0'&&reading[pos+9]<='9')
+		&&(readin[pos+10]>='0'&&reading[pos+10]<='9')&&(readin[pos+11]>='0'&&reading[pos+11]<='9')
+		&&(readin[pos+12]>='0'&&reading[pos+12]<='9'))  {
+
+			numbers += reading.substr(pos, 13) + "\n";
+			cout << "Number find from " << pos << " " << "to " << pos + 13 << endl;
+			pos += 13;
+			findNumbers = true;
+		
+			i=i+1;
+			if(i==1){
+			    numbers +="Numbers from Russia:"+"\n";
+			}
+		}
+		if ((readin[pos]=='+')&&(readin[pos+1]=='7')&&(readin[pos+2]=='(')
+		&&(readin[pos+3]>='0'&&reading[pos+3]<='9')&&(readin[pos+4]>='0'&&reading[pos+4]<='9')
+		&&(readin[pos+5]>='0'&&reading[pos+5]<='9')&&(readin[pos+6]==')')&&(readin[pos+7]>='0'&&reading[pos+7]<='9')
+		&&(readin[pos+8]>='0'&&reading[pos+8]<='9')&&(readin[pos+9]>='0'&&reading[pos+9]<='9')
+		&&(readin[pos+10]>='0'&&reading[pos+10]<='9')&&(readin[pos+11]>='0'&&reading[pos+11]<='9')
+		&&(readin[pos+12]>='0'&&reading[pos+12]<='9')&&(readin[pos+13]>='0'&&reading[pos+13]<='9')) {
+
+			numbers += reading.substr(pos, 14) + "\n";
+			cout << "Numbers find from " << pos << " " << "to " << pos + 14 << endl;
+			pos += 14;
+			findNumbers = true;
+			i=i+1;
+			if(i==1){
+			    numbers +="Numbers from Russia:"+"\n";
+			}
+		}
+		if((readin[pos]=='+')&&(readin[pos+1]=='0')&&(readin[pos+2]=='(')
+		&&(readin[pos+3]>='0'&&reading[pos+3]<='9')&&(readin[pos+4]>='0'&&reading[pos+4]<='9')
+		&&(readin[pos+5]>='0'&&reading[pos+5]<='9')&&(readin[pos+6]==')')&&(readin[pos+7]>='0'&&reading[pos+7]<='9')
+		&&(readin[pos+8]>='0'&&reading[pos+8]<='9')&&(readin[pos+9]>='0'&&reading[pos+9]<='9')
+		&&(readin[pos+10]>='0'&&reading[pos+10]<='9')&&(readin[pos+11]>='0'&&reading[pos+11]<='9')
+		&&(readin[pos+12]>='0'&&reading[pos+12]<='9')&&(readin[pos+13]>='0'&&reading[pos+13]<='9')){
+		    
+		    numbers += reading.substr(pos, 14) + "\n";
+			cout << "Numbers find from " << pos << " " << "to " << pos + 14 << endl;
+			pos += 14;
+			findNumbers = true;
+			a=a+1;
+			if(a==1){
+			    numbers +="Numbers from Birma:"+"\n";
+			}
+		
+		}
+		if((readin[pos]=='+')&&(readin[pos+1]=='1')&&(readin[pos+2]=='(')
+		&&(readin[pos+3]>='0'&&reading[pos+3]<='9')&&(readin[pos+4]>='0'&&reading[pos+4]<='9')
+		&&(readin[pos+5]>='0'&&reading[pos+5]<='9')&&(readin[pos+6]==')')&&(readin[pos+7]>='0'&&reading[pos+7]<='9')
+		&&(readin[pos+8]>='0'&&reading[pos+8]<='9')&&(readin[pos+9]>='0'&&reading[pos+9]<='9')
+		&&(readin[pos+10]>='0'&&reading[pos+10]<='9')&&(readin[pos+11]>='0'&&reading[pos+11]<='9')
+		&&(readin[pos+12]>='0'&&reading[pos+12]<='9')&&(readin[pos+13]>='0'&&reading[pos+13]<='9')){
+		    
+		    numbers += reading.substr(pos, 14) + "\n";
+			cout << "Numbers find from " << pos << " " << "to " << pos + 14 << endl;
+			pos += 14;
+			findNumbers = true;
+			b=b+1;
+			if(b==1){
+			    numbers +="Numbers from USA:"+"\n";
+			}
+		}
+		pos = pos + 1;
+	}
+	if (!findNumbers) {
+		cout << "Mobile numbers not found!" << endl;
+	}
+	else {
+		cout << "Your mobile numbers:" << endl;
+	}
+	ofstream fout;
+	fout.open("Output.txt");
+	if (fout.is_open()) {
+		fout << numbers;
+		fout.close();
+	}
+	else {
+		cout << "File is not created!" << endl;
+	}
+	ifstream in("Output.txt");
+	if (in.is_open()) {
+		while (getline(in, output)) {
+			cout << output << endl;
+		}
+	}
+	else {
+		cout << "File is not open!" << endl;
+	}
+}
+
+int main()
+{
+	int y;
+	do {
+		cout << "Create a file(1)" << endl;
+		cout << "Read  file(2)" << endl;
+		cout << "Get numbers list(3)" << endl;
+		cout << "Save numbers as(4)" << endl;
+		cout << "Save input as(5)" << endl;
+		cout << "Check text(6)" << endl;
+		cout << "Exit(7) " << endl;
+		y = getValidatedChoose();
+		switch (y) {
+		case 1:
+			cout << "Your text:  ";
+			
+			create();
+			
+			break;
+		case 2:
+			cout << "TEXT FROM FILE:" << endl;
+			Read();
+			break;
+		case 3:
+			GetNumbersStationary();
+			break;
+		case 4:
+			SaveNumbersAs();
+			break;
+		case 5:
+			saveInputAs();
+			break;
+		case 6:
+			registrChecking();
+			break;
+		}
+	} while (y != 7);
+	return 0;
+}
